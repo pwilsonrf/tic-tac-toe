@@ -4,55 +4,77 @@
 
 
 //New Gameboard Object
-const Gameboard = (playerName1, playerName2) =>{
+const Gameboard = (name1, name2) =>{
 
     //Initialize gameboard
     let gameboardArr = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let gameboardSequence = [];
 
-    //Create player object
-    const playerName = (player) => {
-        return {
-            name: player,
-            playerCount: 0
-        }
-    }
+    const player1 = Player(name1);
+    const player2 = Player(name2);
 
-    //Create two players
-    let player1 = playerName(playerName1);
-    let player2 = playerName(playerName2);
-
-   
-
-
+    //A player plays
     const playerPlays = (mark, position, player) => {
         gameboardArr[position] = mark;
-
-        if (player === playerName1){
-            playerName1.playerCount += 1;} //Player 1 plays
+        gameboardSequence.push(`${player.name},${position},${mark}`)
+        if (player.name === player1.name){
+            player1.playerCount += 1;} //Player 1 plays
         else {
-            playerName2.playerCount += 1; //Player 2 plays
-        }
-
-    }
-
-    const whoIsNext = (playerName1, playerName2) =>{
-        if(playerCount2 <= playercount1){
-            return (playerName1)
-        } else {
-            return (playerName2)
+            player2.playerCount += 1; //Player 2 plays
         }
     }
 
-    return {player1, player2, gameboardArr, playerPlays}
+  
+
+
+
+
+    return {player1, player2, playerPlays, gameboardArr, gameboardSequence}
+
 
     
 
-    //A Play
+    // const whoIsNext = (playerName1, playerName2) =>{
+    //     if(playerCount2 <= playercount1){
+    //         return (playerName1)
+    //     } else {
+    //         return (playerName2)
+    //     }
+    // }
 
+
+    
 
 
 
 }
 
-console.log(Gameboard("jose", "john"));
-console.log(Gameboard.playerPlays("X", 4, "jose"));
+//A Player Plays
+
+
+
+//Player object
+const Player = (playerName1) =>{
+
+    //Create player object
+    const name = playerName1;
+    let playerCount = 0;
+    return {name, playerCount}
+}
+
+
+
+const jose = Player("jose");
+const john  = Player("john");
+
+
+const newGame = Gameboard("jose", "john");
+console.log(newGame)
+
+
+
+
+console.log(newGame.playerPlays("X", 4, jose));
+console.log(newGame.playerPlays("X", 2, john));
+console.log(newGame.playerPlays("O", 3, john));
+console.log(newGame.playerPlays("O", 5, jose));
