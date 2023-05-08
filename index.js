@@ -22,6 +22,7 @@ const Gameboard = (name1, name2) =>{
 
     const player1 = name1;
     const player2 = name2;
+    let currentPlayer = player1;
 
     const displayGame = (card) =>{
         let gameDisplay = document.querySelector(".card-container");
@@ -46,17 +47,36 @@ const Gameboard = (name1, name2) =>{
         console.log(`card${position}`)
         let card = document.getElementById(`card${position}`);
         card.innerText = player.playerSymbol;
+    }
+
+    
 
 
-        // if(player == player1){
-        //     let currentPlayer = player2;
-        // } else {
-        //     let currentPlayer = player1;
-        // }
-        // return {currentPlayer}
-       
+    //Toggle player
+    const togglePlayer = () =>{
+        console.log("it's running")
+        //Toggle player
+        if(currentPlayer.name == player1.name){
+            let currentPlayer = player2;
+            console.log(currentPlayer.name, currentPlayer.playerSymbol);
+        } else {
+            let currentPlayer = player1;
+            console.log(currentPlayer.name, currentPlayer.playerSymbol)
+        }
+    }
+
+    const card1 = document.getElementsByClassName("card")
+    console.log(card1);
+    togglePlayer();
+    for (i =0; i < card1.length; i++){
+        card1[i].addEventListener("click", (e) => {
+        console.log(currentPlayer)
+        playerPlays(currentPlayer, e.target.id.slice(4))})
         
     }
+   
+
+    
 
 
     
@@ -101,7 +121,7 @@ const Gameboard = (name1, name2) =>{
         
     
 
-    return {player1, player2, playerPlays, gameboardArr, gameboardSequence, gameOver, displayGame}
+    return {player1, player2, playerPlays, gameboardArr, gameboardSequence, gameOver, displayGame, togglePlayer}
 
     // const whoIsNext = (playerName1, playerName2) =>{
     //     if(playerCount2 <= playercount1){
@@ -112,20 +132,6 @@ const Gameboard = (name1, name2) =>{
     // }
 }
 
-//On-click event for player's play
-const card1 = document.getElementById("card2");
-console.log(card1)
-
-if (card1){
-
-card1.addEventListener("click", buttonPressed);
-console.log(card1)
-
-}
-
-const buttonPressed = (e) => {
-    console.log(e.target);
-}
 
 //On-Click Event for Player
 
@@ -146,3 +152,5 @@ console.log(newGame);
 
 newGame.playerPlays(jose, 8);
 newGame.playerPlays(john, 3);
+
+
