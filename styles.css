@@ -1,0 +1,40 @@
+.game-container{
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+}
+
+.card-container{
+    display: grid;
+    height: 450px;
+    width: 450px;
+
+
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px;
+
+}
+
+.card{
+    height: 150px;
+    width: 150px;
+    color: black;
+    background-color: red;
+
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 100px;
+    border: 1px solid black;
+    
+
+}
+
+
