@@ -16,13 +16,15 @@ const Player = (playerName, symbol) =>{
 const Gameboard = (name1, name2) =>{
 
     //Initialize gameboard
-    let gameboardArr = ["O", "O", "X", "X", "X", "X", "X", "X", "O"];
-    
-    let gameboardSequence = [];
+    let gameboardArr = ["", "", "", "", "", "", "", "", ""];
+    let gameboardArrPlayer = ["", "", "", "", "", "", "", "", ""];
+    let playerCounter = 0; //Number of times that has been played
 
+    //Current players
     const player1 = name1;
     const player2 = name2;
     let currentPlayer = player1;
+    let previousPlayer = "";
 
     const displayGame = (card) =>{
         let gameDisplay = document.querySelector(".card-container");
@@ -36,80 +38,99 @@ const Gameboard = (name1, name2) =>{
     }
     displayGame()
 
-
-    
-    
-
     //A player plays
     const playerPlays =  (player, position) => {
-        gameboardArr[position] = player.playerSymbol;
-        console.log(gameboardArr);
-        console.log(`card${position}`)
         let card = document.getElementById(`card${position}`);
-        card.innerText = player.playerSymbol;
+        if (card.innerText == ""){
+            //Update symbol, player name and toggle playuer
+            gameboardArr[position] = player.playerSymbol;
+            gameboardArrPlayer[position] = player.name;
+            card.innerText = player.playerSymbol;
+            playerCounter++;
+           
+
+            //Toggle player
+            togglePlayer();
+            
+            //Check if game is over
+            gameOver();
+            
+        } else {
+            alert(`${gameboardArrPlayer[position]} has already played on this spot. Try a new spot`);
+        }
+        
     }
-
-    
-
 
     //Toggle player
     const togglePlayer = () =>{
         console.log("it's running")
         //Toggle player
         if(currentPlayer.name == player1.name){
-            let currentPlayer = player2;
+            previousPlayer = player1;
+            currentPlayer = player2;
             console.log(currentPlayer.name, currentPlayer.playerSymbol);
         } else {
-            let currentPlayer = player1;
+            currentPlayer = player1;
+            previousPlayer = player2;
             console.log(currentPlayer.name, currentPlayer.playerSymbol)
         }
     }
 
-    const card1 = document.getElementsByClassName("card")
-    console.log(card1);
-    togglePlayer();
-    for (i =0; i < card1.length; i++){
-        card1[i].addEventListener("click", (e) => {
-        console.log(currentPlayer)
-        playerPlays(currentPlayer, e.target.id.slice(4))})
-        
+    //Click event on Board
+    const card1 = document.querySelectorAll(".card"); //Grab all cards
+    card1.forEach(el => el.addEventListener("click", handleClick, false));
+    function handleClick(e){
+        playerPlays(currentPlayer, e.target.id.slice(4));
     }
-   
-
     
+    //Check if Game is Over
+    const gameOver = () =>{
 
+        if (playerCounter == 9){
+            console.log(playerCounter);
+            document.querySelector(".display-result-container").innerText = `There is a tie! Start new Game!`;
+            playerCounter = 0;
+        }
 
-    
-
-    const gameOver = (player) =>{
-        console.log(gameboardArr.length)
-
-        //Check for rows
-        for(i = 0; i < gameboardArr.length; i+=3){
-            //Check rows
-            if(gameboardArr[i] === gameboardArr[i+1] && gameboardArr[i+1] === gameboardArr[i+2]){
-            console.log("hello world1")
+        //For a player to win, there must be at least 5 plays
+        if (playerCounter >=5){
+            for(i = 0; i < gameboardArr.length; i+=3){
+                //Check rows
+                if(gameboardArr[i] === gameboardArr[i+1] && gameboardArr[i+1] === gameboardArr[i+2] && gameboardArr[i] != ""){
+                document.querySelector(".display-result-container").innerText = `Game Over. ${previousPlayer.name} wins!`;
+                console.log("#1")
+                playerCounter = 0;
+                } 
             } 
-        }
-
-        //check for columns
-        for(i = 0; i < 3; i++){
-            //Check columns
-            if(gameboardArr[i] === gameboardArr[i+3] && gameboardArr[i+3] === gameboardArr[i+6]){
-            console.log("hello world2")
+    
+            //check for columns
+            for(i = 0; i < 3; i++){
+                //Check columns
+                if(gameboardArr[i] === gameboardArr[i+3] && gameboardArr[i+3] === gameboardArr[i+6] && gameboardArr[i] != ""){
+                    document.querySelector(".display-result-container").innerText = `Game Over. ${previousPlayer.name} wins!`;
+                    console.log("#2")
+                    playerCounter = 0;
+                }
             }
+    
+            //check diagonals
+            ////Check top-left to bottom-right diagonals
+            if(gameboardArr[0] === gameboardArr[4] && gameboardArr[4] === gameboardArr[8]){
+                document.querySelector(".display-result-container").innerText = `Game Over. ${previousPlayer.name} wins!`;
+                console.log("#3")
+                playerCounter = 0;
+            }
+    
+            ////Check top-right to bottom-left diagonals
+            if(gameboardArr[2] === gameboardArr[4] && gameboardArr[4] === gameboardArr[6]){
+                document.querySelector(".display-result-container").innerText = `Game Over. ${previousPlayer.name} wins!`;
+                console.log("#4")
+                playerCounter = 0;
+             }
         }
 
-        //check diagonals
-        ////Check top-left to bottom-right diagonals
-        if(gameboardArr[0] === gameboardArr[4] && gameboardArr[4] === gameboardArr[8]){
-           console.log("hello world3")
-        }
+       
 
-        ////Check top-right to bottom-left diagonals
-        if(gameboardArr[2] === gameboardArr[4] && gameboardArr[4] === gameboardArr[6]){
-            console.log("hello world4")
-         }
     }
 
     
@@ -121,7 +142,7 @@ const Gameboard = (name1, name2) =>{
         
     
 
-    return {player1, player2, playerPlays, gameboardArr, gameboardSequence, gameOver, displayGame, togglePlayer}
+    return {player1, player2, playerPlays, gameboardArr, gameOver, displayGame, togglePlayer}
 
     // const whoIsNext = (playerName1, playerName2) =>{
     //     if(playerCount2 <= playercount1){
@@ -140,8 +161,8 @@ const Gameboard = (name1, name2) =>{
 
 
 
-const jose = Player("jose", "G");
-const john  = Player("john", "O");
+const jose = Player("X", "X");
+const john  = Player("O", "O");
 const newGame = Gameboard(jose, john);
 
 console.log(newGame);
@@ -150,7 +171,7 @@ console.log(newGame);
 // console.log(newGame.playerPlays("O", 3, john));
 // console.log(newGame.playerPlays("O", 5, jose));
 
-newGame.playerPlays(jose, 8);
-newGame.playerPlays(john, 3);
+// newGame.playerPlays(jose, 8);
+// newGame.playerPlays(john, 3);
 
 

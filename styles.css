@@ -1,9 +1,14 @@
+:root{
+    background-color: lightseagreen;
+}
+
 .game-container{
     display: flex;
     margin: auto;
     justify-content: center;
     align-items: center;
-
+    flex-direction: column;
+    gap: 50px;
     height: 100vh;
 }
 
@@ -22,8 +27,8 @@
 .card{
     height: 150px;
     width: 150px;
-    color: black;
-    background-color: red;
+    color: #002B5B;
+    background-color: #F45050;
 
     display: flex;
     margin: auto;
@@ -37,4 +42,33 @@
 
 }
 
+.display-result-container{
+    display: flex;
+    height: 50px;
+    width: 450px;
+    background-color: #EEEEEE;
+    justify-self: center;
+
+    border-radius: 30px;
+    border: 0.25px solid rgba(0,0,0,0.5);
+
+    font-size: 24px;
+    color: #454545;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-game-button, .restart-game-button{
+    height: 40px;
+    width: 150px;
+    border-radius: 30px;
+    border: 0.25px solid rgba(0,0,0,0.5);
+
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    width: 450px;
+}
 
