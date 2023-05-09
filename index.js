@@ -15,10 +15,21 @@ const Player = (playerName, symbol) =>{
 //New Gameboard Object
 const Gameboard = (name1, name2) =>{
 
+
     //Initialize gameboard
     let gameboardArr = ["", "", "", "", "", "", "", "", ""];
     let gameboardArrPlayer = ["", "", "", "", "", "", "", "", ""];
     let playerCounter = 0; //Number of times that has been played
+    let endOfGame = 0;
+
+    //Grab players
+    const grabPlayer = () =>{
+        let players = document.querySelectorAll(".players");
+        players.forEach(el => el.addEventListener("click", (e) =>{
+            player1 = Player(e.innerText);
+            player2 = Player(e.innerText);
+        }))
+    }
 
     //Current players
     const player1 = name1;
@@ -41,24 +52,27 @@ const Gameboard = (name1, name2) =>{
     //A player plays
     const playerPlays =  (player, position) => {
         let card = document.getElementById(`card${position}`);
-        if (card.innerText == ""){
-            //Update symbol, player name and toggle playuer
-            gameboardArr[position] = player.playerSymbol;
-            gameboardArrPlayer[position] = player.name;
-            card.innerText = player.playerSymbol;
-            playerCounter++;
-           
-
-            //Toggle player
-            togglePlayer();
-            
-            //Check if game is over
-            gameOver();
-            
+        if (endOfGame ==1){
+            alert(`End of Game. Start a New Game`);
         } else {
-            alert(`${gameboardArrPlayer[position]} has already played on this spot. Try a new spot`);
+            if (card.innerText == "" && endOfGame == 0){
+                //Update symbol, player name and toggle playuer
+                gameboardArr[position] = player.playerSymbol;
+                gameboardArrPlayer[position] = player.name;
+                card.innerText = player.playerSymbol;
+                playerCounter++;
+               
+    
+                //Toggle player
+                togglePlayer();
+                
+                //Check if game is over
+                gameOver();
+                
+            } else {
+                alert(`${gameboardArrPlayer[position]} has already played on this spot. Try a new spot`);
+            }
         }
-        
     }
 
     //Toggle player
@@ -100,6 +114,7 @@ const Gameboard = (name1, name2) =>{
                 document.querySelector(".display-result-container").innerText = `Game Over. ${previousPlayer.name} wins!`;
                 console.log("#1")
                 playerCounter = 0;
+                endOfGame = 1;
                 } 
             } 
     
@@ -110,6 +125,7 @@ const Gameboard = (name1, name2) =>{
                     document.querySelector(".display-result-container").innerText = `Game Over. ${previousPlayer.name} wins!`;
                     console.log("#2")
                     playerCounter = 0;
+                    endOfGame = 1;
                 }
             }
     
@@ -119,6 +135,7 @@ const Gameboard = (name1, name2) =>{
                 document.querySelector(".display-result-container").innerText = `Game Over. ${previousPlayer.name} wins!`;
                 console.log("#3")
                 playerCounter = 0;
+                endOfGame = 1;
             }
     
             ////Check top-right to bottom-left diagonals
@@ -126,6 +143,7 @@ const Gameboard = (name1, name2) =>{
                 document.querySelector(".display-result-container").innerText = `Game Over. ${previousPlayer.name} wins!`;
                 console.log("#4")
                 playerCounter = 0;
+                endOfGame = 1;
              }
         }
 
@@ -133,7 +151,37 @@ const Gameboard = (name1, name2) =>{
 
     }
 
+
     
+
+
+    //Delete gameboard data
+   
+    
+
+    //Start New Game
+    let buttonStartGame = document.querySelectorAll("button");
+    buttonStartGame.forEach(el => el.addEventListener("click", newGame, false));
+    console.log(buttonStartGame)
+
+
+    function newGame () {
+        //Initialize gameboard
+        gameboardArr = ["", "", "", "", "", "", "", "", ""];
+        gameboardArrPlayer = ["", "", "", "", "", "", "", "", ""];
+        playerCounter = 0; //Number of times that has been played
+        console.log(gameboardArr)
+        cards = document.querySelectorAll(".card");
+        cards.forEach(el => el.innerText = "");
+        endOfGame = 0;
+    }
+        
+
+    // const card1 = document.querySelectorAll(".card"); //Grab all cards
+    // card1.forEach(el => el.addEventListener("click", handleClick, false));
+    // function handleClick(e){
+    //     playerPlays(currentPlayer, e.target.id.slice(4));
+    // }
         
 
 
@@ -157,6 +205,8 @@ const Gameboard = (name1, name2) =>{
 //On-Click Event for Player
 
 //A Player Plays
+
+
 
 
 
