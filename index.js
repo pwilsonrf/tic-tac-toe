@@ -1,7 +1,5 @@
-
 //Assumptions
 //Player1 in object below always starts the game
-
 
 //Player object
 const Player = (playerName, symbol) =>{
@@ -13,7 +11,7 @@ const Player = (playerName, symbol) =>{
 }
 
 //New Gameboard Object
-const Gameboard = (name1, name2) =>{
+const Gameboard = () =>{
 
 
     //Initialize gameboard
@@ -21,22 +19,53 @@ const Gameboard = (name1, name2) =>{
     let gameboardArrPlayer = ["", "", "", "", "", "", "", "", ""];
     let playerCounter = 0; //Number of times that has been played
     let endOfGame = 0;
+    let newPlayer1 = Player("Player 1", "X");
+    let newPlayer2 = Player("Player 2", "O");
+    let currentPlayer = newPlayer1;
 
     //Grab players
-    const grabPlayer = () =>{
-        let players = document.querySelectorAll(".players");
-        players.forEach(el => el.addEventListener("click", (e) =>{
-            player1 = Player(e.innerText);
-            player2 = Player(e.innerText);
-        }))
-    }
+    let player1Button = document.querySelector(".player-button-1");
+    console.log(player1Button)
+    let player1Input = "";
+    
+    console.log(player1Input)
+    player1Button.addEventListener("click", () =>{
+        console.log(document.querySelector("#player1-input").value);
+        newPlayer1.name = document.querySelector("#player1-input").value;
+        // newPlayer1 = Player(player1Input.innerText, "X");
+        currentPlayer = newPlayer1;
+        console.log(`${currentPlayer.name} after Enter`)
+
+        
+    });
+
+    let player2Button = document.querySelector(".player-button-2");
+    let player2Input = document.querySelector("#player2-input");
+    player2Button.addEventListener("click", () =>{
+        newPlayer2 = Player(player2Input.value, "O");
+        console.log(newPlayer2);
+        return{newPlayer2}
+        
+    });
+
+    console.log(newPlayer1)
+    console.log(newPlayer2)
+
+    // let player1Buttontest = document.querySelector("#player1");
+    // player1Buttontest.addEventListener("click", () =>{
+    //     document.querySelector("#player1").addEventListener("input", (e) =>{
+    //         console.log(e.target.value)
+            
+    //     })});
+
+    
 
     //Current players
-    const player1 = name1;
-    const player2 = name2;
-    let currentPlayer = player1;
+   
+    
+   
+    console.log(currentPlayer)
     let previousPlayer = "";
-
     const displayGame = (card) =>{
         let gameDisplay = document.querySelector(".card-container");
         for (i = 0; i < gameboardArr.length; i++){
@@ -57,6 +86,7 @@ const Gameboard = (name1, name2) =>{
         } else {
             if (card.innerText == "" && endOfGame == 0){
                 //Update symbol, player name and toggle playuer
+                console.log(player)
                 gameboardArr[position] = player.playerSymbol;
                 gameboardArrPlayer[position] = player.name;
                 card.innerText = player.playerSymbol;
@@ -79,15 +109,17 @@ const Gameboard = (name1, name2) =>{
     const togglePlayer = () =>{
         console.log("it's running")
         //Toggle player
-        if(currentPlayer.name == player1.name){
-            previousPlayer = player1;
-            currentPlayer = player2;
+        if(currentPlayer.name == newPlayer1.name){
+            previousPlayer = newPlayer1;
+            currentPlayer = newPlayer2;
             console.log(currentPlayer.name, currentPlayer.playerSymbol);
         } else {
-            currentPlayer = player1;
-            previousPlayer = player2;
+            currentPlayer = newPlayer1;
+            previousPlayer = newPlayer2;
             console.log(currentPlayer.name, currentPlayer.playerSymbol)
         }
+
+        console.log(`this is ${previousPlayer.name}`);
     }
 
     //Click event on Board
@@ -95,11 +127,12 @@ const Gameboard = (name1, name2) =>{
     card1.forEach(el => el.addEventListener("click", handleClick, false));
     function handleClick(e){
         playerPlays(currentPlayer, e.target.id.slice(4));
+        console.log(currentPlayer)
     }
     
     //Check if Game is Over
     const gameOver = () =>{
-
+        console.log(`game over ${previousPlayer.name}`)
         if (playerCounter == 9){
             console.log(playerCounter);
             document.querySelector(".display-result-container").innerText = `There is a tie! Start new Game!`;
@@ -151,14 +184,6 @@ const Gameboard = (name1, name2) =>{
 
     }
 
-
-    
-
-
-    //Delete gameboard data
-   
-    
-
     //Start New Game
     let buttonStartGame = document.querySelectorAll("button");
     buttonStartGame.forEach(el => el.addEventListener("click", newGame, false));
@@ -171,8 +196,15 @@ const Gameboard = (name1, name2) =>{
         gameboardArrPlayer = ["", "", "", "", "", "", "", "", ""];
         playerCounter = 0; //Number of times that has been played
         console.log(gameboardArr)
+
+        currentPlayer = newPlayer1;
+
+        //Reinitialize cards
         cards = document.querySelectorAll(".card");
         cards.forEach(el => el.innerText = "");
+
+        //Reinitialize results display
+        document.querySelector(".display-result-container").innerText = "";
         endOfGame = 0;
     }
         
@@ -190,7 +222,7 @@ const Gameboard = (name1, name2) =>{
         
     
 
-    return {player1, player2, playerPlays, gameboardArr, gameOver, displayGame, togglePlayer}
+    return {newPlayer1, newPlayer2, playerPlays, gameboardArr, gameOver, displayGame, togglePlayer}
 
     // const whoIsNext = (playerName1, playerName2) =>{
     //     if(playerCount2 <= playercount1){

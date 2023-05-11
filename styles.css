@@ -58,7 +58,7 @@
     align-items: center;
 }
 
-.new-game-button, .restart-game-button{
+.game-button{
     height: 40px;
     width: 150px;
     border-radius: 30px;
@@ -75,21 +75,27 @@
 .player{
     display: flex;
     height: 50px;
-    width: 250px;
+    width: 400px;
     background-color: #EEEEEE;
     justify-self: center;
 
     border-radius: 30px;
     border: 0.25px solid rgba(0,0,0,0.5);
 
-    font-size: 24px;
+    font-size: 20px;
     color: #454545;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
 .main-container{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 100px;
+}
+
+.player-button{
+    display: none;
 }
